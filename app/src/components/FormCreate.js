@@ -11,11 +11,24 @@ class FormCreate extends React.Component {
   handleInputChange = (e) => {
     this.setState({ cInput: e.target.value });
   }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    if (this.state.cInput.trim()) {
+      this.props.handleCreateItem(this.state.cInput);
+      this.setState({
+        cInput: ''
+      });
+    }
+  }
   
   
   render() {
     return (
-      <form className="ui form">
+      <form 
+        className="ui form" 
+        onSubmit={this.handleSubmit}
+      >
         <div className="ui grid center aligned">
           <div className="row">
             <div className="column five wide">

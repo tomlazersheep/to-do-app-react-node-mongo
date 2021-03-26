@@ -6,7 +6,16 @@ class List extends React.Component {
   render() {
     return (
       <div className="ui grid center aligned">
-        <ToDo title="tu javie" /> 
+        
+        {this.props.listItems.map((item) => 
+        <ToDo 
+          toDoTitle={item.title} 
+          isCompleted={item.completed} 
+          key={item.id }
+          id={item.id }
+          handleDeleteItem={this.props.handleDeleteItem}
+        />)}
+      
       </div>
     );
   }

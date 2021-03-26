@@ -5,13 +5,13 @@ class ToDo extends React.Component {
     super(props);
     this.state = {
       isEdit: false,
-      toDoTitle: this.props.title ? this.props.title : '',
-      tempToDoTitle: this.props.title ? this.props.title : '',
-      isCompleted: false
+      toDoTitle: this.props.toDoTitle ? this.props.toDoTitle : '',
+      tempToDoTitle: this.props.toDoTitle ? this.props.toDoTitle : '',
+      isCompleted: this.props.isCompleted ? this.props.isCompleted : false 
     }
   }
 
-  handleDoubleClick = (e) => {
+  handleTitleClick = (e) => {
     this.setState({
       isEdit: true
     })
@@ -20,12 +20,12 @@ class ToDo extends React.Component {
   handleKeyDown = (e) => {
     const key = e.keyCode;
 
-    if (key == 13 ) {
+    if (key === 13 ) {
       this.setState({
         toDoTitle: this.state.tempToDoTitle,
         isEdit: false,
       });
-    } else if (key == 27) {
+    } else if (key === 27) {
       this.setState({
         tempToDoTitle: this.state.toDoTitle,
         isEdit: false,
@@ -39,9 +39,19 @@ class ToDo extends React.Component {
     });
   }
 
+  handleCompletion = (e) => {
+    this.setState({
+      isCompleted: !this.state.isCompleted
+    });
+  }
+
+  handleDeleteClick = (e) => {
+    this.props.handleDeleteItem(this.props.id);
+  }
+
   render() {
     return (
-      <div className="row" onDoubleClick={this.handleDoubleClick}>
+      <div className="row">
         {this.state.isEdit ?
           <div className="column seven wide">
             <div className="ui input fluid"> 
@@ -57,18 +67,30 @@ class ToDo extends React.Component {
           :
           <>
             <div className="column five wide">
-              <h3>{this.state.toDoTitle}</h3>
+              <h2 
+                className={"ui header " + (this.state.isCompleted ? "green" : "")}
+                style={{cursor: "pointer"}}
+                onClick={this.handleTitleClick}
+              >
+                {this.state.toDoTitle}
+              </h2>
             </div>
 
             <div className="column one wide">
-              <button className="ui button circular green icon">
+              <button 
+                className="ui button circular green icon"
+                onClick={this.handleCompletion}
+              >
                 <i className="white check icon"></i>
               </button>
             </div>
 
 
             <div className="column one wide">
-              <button className="ui button circular red icon">
+              <button 
+                className="ui button circular red icon"
+                onClick={this.handleDeleteClick}
+              >
                 <i className="white remove icon"></i>
               </button>
             </div>
