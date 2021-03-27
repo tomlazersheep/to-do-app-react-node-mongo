@@ -21,6 +21,9 @@ mongoose.connect("mongodb://localhost/todolist")
 //create express app
 const app = express();
 
+// use json middleware to parse requests
+app.use(express.json());
+
 //import routes from routes dir
 const routes = require("./routes");
 // set router to handle every route
