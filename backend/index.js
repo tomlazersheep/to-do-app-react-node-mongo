@@ -9,6 +9,8 @@ mongoose.set('useCreateIndex', true);
 mongoose.set('useUnifiedTopology', true);
 
 //connect to mongo local db called "todolist"
+// to run mongo db use 
+// $ sudo systemctl start mongod
 mongoose.connect("mongodb://localhost/todolist")
 .then(()=>{
   console.log("connected ok");
