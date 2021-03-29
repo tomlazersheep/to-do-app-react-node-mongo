@@ -11,9 +11,11 @@ class List extends React.Component {
         <ToDo 
           toDoTitle={item.title} 
           isCompleted={item.completed} 
-          key={item.id }
-          id={item.id }
+          key={item._id }
+          id={item._id }
           handleDeleteItem={this.props.handleDeleteItem}
+          handleEditItem={this.props.handleEditItem}
+          
         />)}
       
       </div>

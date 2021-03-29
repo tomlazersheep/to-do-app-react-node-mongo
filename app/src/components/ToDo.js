@@ -21,6 +21,7 @@ class ToDo extends React.Component {
     const key = e.keyCode;
 
     if (key === 13 ) {
+      this.props.handleEditItem(this.props.id, {title: this.state.tempToDoTitle});
       this.setState({
         toDoTitle: this.state.tempToDoTitle,
         isEdit: false,
@@ -40,8 +41,10 @@ class ToDo extends React.Component {
   }
 
   handleCompletion = (e) => {
-    this.setState({
-      isCompleted: !this.state.isCompleted
+    console.log(this.props.id, !this.state.isCompleted);
+    this.props.handleEditItem(this.props.id, {completed: !this.state.isCompleted});
+    this.setState({ 
+      isCompleted:  !this.state.isCompleted
     });
   }
 

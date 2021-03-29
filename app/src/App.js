@@ -3,37 +3,57 @@ import Header from "./components/Header";
 import FormCreate from './components/FormCreate';
 import Section from './components/Section';
 import List from "./components/List";
-
+import axios from 'axios';
 
 class App extends React.Component {
   constructor() {
     super();
-    //fetch list items here
-    const fakeListItems = [
-      {id: 1,title: "fake title #1", completed: false},
-      {id: 2,title: "fake title #2", completed: true},
-      {id: 3,title: "fake title #3", completed: false},
-      {id: 4,title: "fake title #4", completed: false},
-      {id: 5,title: "fake title #5", completed: false},
-      {id: 6,title: "fake title #6", completed: true},
-    ];
-
     this.state = {
-      listItems: fakeListItems
+      listItems: []
     }
+    //fetch list items here
+    
+    axios.get("http://localhost:3001/todo").then((e)=> {
+      this.setState({
+        listItems: e.data
+      });
+    });
   }
   
   handleCreateItem = (title) => {
-    this.setState({
-      listItems: this.state.listItems.concat({title: title, completed: false})
+    axios.post("http://localhost:3001/todo",{
+      title: title,
+      completed: false
+    })
+    .then(() => {
+      axios.get("http://localhost:3001/todo").then((e)=> {
+        this.setState({
+          listItems: e.data
+        });
+      });
     });
 
-    //push new item to server??
   }
 
   handleDeleteItem = (itemId) => {
-    this.setState({
-      listItems: this.state.listItems.filter((item) => item.id !== itemId)
+    axios.delete(`http://localhost:3001/todo/${itemId}`)
+    .then( () => {
+      axios.get("http://localhost:3001/todo").then((e)=> {
+        this.setState({
+          listItems: e.data
+        });
+      });
+    });
+  }
+
+  handleEditItem = (itemId, newValues) => {
+    axios.put(`http://localhost:3001/todo/${itemId}`, newValues)
+    .then( () => {
+      axios.get("http://localhost:3001/todo").then((e)=> {
+        this.setState({
+          listItems: e.data
+        });
+      });
     });
   }
 
@@ -47,7 +67,10 @@ class App extends React.Component {
           <FormCreate handleCreateItem={this.handleCreateItem}/>
         </Section>
         <Section>
-          <List listItems={this.state.listItems} handleDeleteItem={this.handleDeleteItem} />
+          <List 
+            listItems={this.state.listItems} 
+            handleDeleteItem={this.handleDeleteItem}
+            handleEditItem={this.handleEditItem} />
           
         </Section>
       </>

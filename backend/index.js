@@ -23,13 +23,13 @@ const app = express();
 
 // use json middleware to parse requests
 app.use(express.json());
+app.use(cors());
 
 //import routes from routes dir
 const routes = require("./routes");
 // set router to handle every route
 app.use("/", routes);
 
-app.use(cors());
 
 //start server on port 3001
 app.listen(3001);
