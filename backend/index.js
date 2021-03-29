@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require("mongoose");
-
+const cors = require("cors");
 
 // set mongoose parameters to avoid error
 mongoose.set('useNewUrlParser', true);
@@ -29,6 +29,7 @@ const routes = require("./routes");
 // set router to handle every route
 app.use("/", routes);
 
+app.use(cors());
 
 //start server on port 3001
 app.listen(3001);
